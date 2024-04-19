@@ -6,7 +6,6 @@ import cors from "cors";
 import "./config/database.js";
 import "dotenv/config";
 
-import mainRoutes from "./src/routes/mainRoutes.routes.js";
 import authRoutes from "./src/routes/authRoutes.routes.js";
 import stadiumsRoutes from "./src/routes/stadiums.routes.js";
 import matchesRoutes from "./src/routes/matches.routes.js";
@@ -29,7 +28,6 @@ const __dirname = path.dirname(__filename);
 
 app.use(express.static(path.join(__dirname, "/public")));
 
-app.use("/api", mainRoutes);
 app.use("/api", teamsRoutes);
 app.use("/api", stadiumsRoutes);
 app.use("/api", matchesRoutes);
