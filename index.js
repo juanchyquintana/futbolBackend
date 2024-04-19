@@ -3,6 +3,7 @@ import express from "express";
 import morgan from "morgan";
 import path from "path";
 import cors from "cors";
+import './config/database.js'
 import "dotenv/config"
 
 const app = express();
