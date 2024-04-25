@@ -1,9 +1,20 @@
 import { Router } from "express";
+import {
+  getMatchs,
+  createMatch,
+  getMatchsById,
+  updateMatch,
+  deleteMatch
+} from "../controllers/matchController.js";
 
-const router = Router()
+const router = Router();
 
-router.route('/matches').get((req, res) => {
-    res.send("matches");
-  });
+router.route("/matchs").get(getMatchs).post(createMatch);
 
-export default router
+router
+  .route("/matchs/:id")
+  .get(getMatchsById)
+  .put(updateMatch)
+  .delete(deleteMatch);
+
+export default router;
