@@ -1,8 +1,16 @@
 import { Router } from "express";
-import { getStadiums } from "../controllers/stadiumController.js";
+import {
+  createStadium,
+  getStadiums,
+  getStadiumsById,
+  updateStadium,
+  deleteStadium
+} from "../controllers/stadiumController.js";
 
-const router = Router()
+const router = Router();
 
-router.route('/stadium').get(getStadiums);
+router.route("/stadium").get(getStadiums).post(createStadium);
 
-export default router
+router.route("/stadium/:id").get(getStadiumsById).put(updateStadium).delete(deleteStadium);
+
+export default router;
