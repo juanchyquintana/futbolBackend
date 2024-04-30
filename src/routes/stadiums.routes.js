@@ -1,9 +1,8 @@
 import { Router } from "express";
+import { getStadiums } from "../controllers/stadiumController.js";
 
 const router = Router()
 
-router.route('/stadiums').get((req, res) => {
-    res.send("stadiums");
-  });
+router.route('/stadium').get(getStadiums);
 
 export default router
