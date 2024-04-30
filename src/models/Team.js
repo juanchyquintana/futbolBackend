@@ -28,18 +28,6 @@ const teamSchema = mongoose.Schema({
     trim: true,
     required: true,
   },
-  ubicacionEstadio: [
-    {
-      lat: {
-        type: Number,
-        trim: true,
-      },
-      lng: {
-        type: Number,
-        trim: true,
-      },
-    },
-  ],
   historia: {
     type: String,
     trim: true,
