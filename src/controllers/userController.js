@@ -67,7 +67,7 @@ const deleteUser = async (req, res) => {
 const logIn = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const userFound = await User.findOne({ email })
+    const userFound = await User.findOne({ email });
     const validPassword = bcrypt.compareSync(password, userFound.password);
 
     if (!userFound) {
@@ -94,4 +94,94 @@ const logIn = async (req, res) => {
   }
 };
 
-export { getUsers, createUser, getUserById, updateUser, deleteUser, logIn };
+const confirmAccount = async (req, res) => {
+  const { token } = req.params;
+  const confirmUser = await Usuario.findOne({ token });
+
+  if (!confirmUser) {
+    res.status(403).json({ message: "Token not Valid" });
+  }
+
+  try {
+    // TO DO: Tengo que agregarle estos campos en la BD
+    confirmUser.confirmado = true;
+    confirmUser.token = "";
+    await confirmUser.save();
+
+    res.status(200).json({ message: "User Successfully Confirm" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error to Confirm the Account" });
+  }
+};
+
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  const userFound = User.findOne({ email });
+
+  if (!userFound) {
+    res.status(404).json({ message: "Usuario Not Found" });
+  }
+
+  try {
+    userFound.token = generatedJWT();
+    await userFound.save();
+
+    // TO DO: Crear la función para mandar el mail de confirmación de cuenta
+    sendEmailForgorPassword({
+      email: userFound.email,
+      nombre: userFound.nombre,
+      token: userFound.token,
+    });
+
+    res.json({ message: "We send a email with the next steps!" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error!" });
+  }
+};
+
+const checkToken = async (req, res) => {
+  const { token } = req.params;
+  const validToken = await User.findOne({ token });
+
+  if (validToken) {
+    res.json({ msg: "Valid Token. The User was found" });
+  } else {
+    return res.status(404).json({ message: "Token Not Valid" });
+  }
+};
+
+const newPassword = async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  const user = await User.findOne({ token });
+
+  if (user) {
+    user.password = password;
+    user.token = "";
+
+    try {
+      await user.save();
+      res.status(200).json({ message: "Password Successfully Modified" });
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+    return res.status(500).json({ message: "Error to change the password!" });
+  }
+};
+
+export {
+  getUsers,
+  createUser,
+  getUserById,
+  updateUser,
+  deleteUser,
+  logIn,
+  confirmAccount,
+  forgotPassword,
+  checkToken,
+  newPassword,
+};
