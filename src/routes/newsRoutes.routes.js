@@ -4,13 +4,18 @@ import {
   createNew,
   getNewById,
   updateNew,
-  deleteNew
+  deleteNew,
 } from "../controllers/newControllers.js";
+import newValidator from "../helpers/validators/newValidator.js";
 
 const router = Router();
 
-router.route("/new").get(getNews).post(createNew);
+router.route("/new").get(getNews).post(newValidator, createNew);
 
-router.route("/new/:id").get(getNewById).put(updateNew).delete(deleteNew);
+router
+  .route("/new/:id")
+  .get(getNewById)
+  .put(newValidator, updateNew)
+  .delete(deleteNew);
 
 export default router;
