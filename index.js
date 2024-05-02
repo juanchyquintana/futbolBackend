@@ -8,7 +8,6 @@ import "dotenv/config";
 
 
 import userRoutes from "./src/routes/userRoutes.routes.js";
-import authRoutes from "./src/routes/authRoutes.routes.js";
 import matchesRoutes from "./src/routes/matches.routes.js";
 import newsRoutes from "./src/routes/newsRoutes.routes.js";
 import stadiumsRoutes from "./src/routes/stadiums.routes.js";
@@ -36,4 +35,3 @@ app.use("/api", teamsRoutes);
 app.use("/api", matchesRoutes);
 app.use("/api", newsRoutes);
 app.use("/api", stadiumsRoutes);
-app.use("/api", authRoutes);
